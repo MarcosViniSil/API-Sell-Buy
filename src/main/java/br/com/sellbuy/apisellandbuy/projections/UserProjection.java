@@ -1,10 +1,10 @@
-package br.com.sellbuy.apisellandbuy.services;
+package br.com.sellbuy.apisellandbuy.projections;
 
 import br.com.sellbuy.apisellandbuy.entities.Buy;
 import br.com.sellbuy.apisellandbuy.entities.Historic;
 import br.com.sellbuy.apisellandbuy.entities.Sale;
 
-public interface UserService {
+public interface UserProjection {
 
     Iterable<Historic> historicalList();
 
@@ -13,7 +13,7 @@ public interface UserService {
     void saleCurrency(String currency);
 
     Iterable<Sale> saleList();
-    
+
     Iterable<Buy> buyList();
 
 }
