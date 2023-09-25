@@ -2,7 +2,7 @@ package br.com.sellbuy.apisellandbuy.services;
 
 import br.com.sellbuy.apisellandbuy.entities.*;
 import br.com.sellbuy.apisellandbuy.projections.CodeApiProjection;
-import br.com.sellbuy.apisellandbuy.projections.MercadoBitcoinCurrencyApiProjection;
+import br.com.sellbuy.apisellandbuy.projections.CoinCurrencyApiProjection;
 import br.com.sellbuy.apisellandbuy.projections.UserProjection;
 import br.com.sellbuy.apisellandbuy.repositories.BuyRepository;
 import br.com.sellbuy.apisellandbuy.repositories.HistoricRepository;
@@ -34,12 +34,10 @@ public class HistoricService implements UserProjection {
     private UserRepository userRepository;
 
     @Autowired
-    private MercadoBitcoinCurrencyApiProjection currencyApiProjection;
+    private CoinCurrencyApiProjection currencyApiProjection;
 
     @Autowired
     private CodeApiProjection codeApiProjection;
-
-
 
 
     @Override
@@ -47,67 +45,70 @@ public class HistoricService implements UserProjection {
 
         return historicRepository.findAll();
     }
+
+    @Override
     public List<User> userList() {
 
         return userRepository.findAll();
     }
 
-    public Optional<User> userById(Integer id){
+    @Override
+    public Optional<User> userById(Integer id) {
+
         return userRepository.findById(id);
     }
 
-    public Historic historicUser(Integer id){
-        Optional<User> user=userRepository.findById(id);
-        User user2=user.get();
-        return user2.getHistoric();
+    @Override
+    public Historic historicUser(Integer id) {
+        Optional<User> userByFind = userRepository.findById(id);
+        User user = userByFind.get();
+        return user.getHistoric();
     }
 
 
-
-
     @Override
-    public User saleCurrency(String currency,Integer id) {
-        Optional<User> user=userRepository.findById(id);
-        User user2=user.get();
-        if(user2.getId()!=null) {
+    public User saleCurrency(String currency, Integer id) {
+        Optional<User> userByFind = userRepository.findById(id);
+        User user = userByFind.get();
+        if (user.getId() != null) {
             if (currency != null) {
                 try {
 
-                    Historic historic = user2.getHistoric();
+                    Historic historic = user.getHistoric();
                     if (historic == null) {
                         historic = new Historic();
-                        user2.setHistoric(historic);
-                        historic.setUser(user2);
+                        user.setHistoric(historic);
+                        historic.setUser(user);
                     }
 
-                    String code =generatedCode().getString();
-                    Date dataSale=new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                    String code = generatedCode().getString();
+                    Date dataSale = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                     String priceCurrency = getCurrency(currency).getTicker().getLast();
-                    Sale sale=new Sale(code,dataSale,currency,priceCurrency);
+                    Sale sale = new Sale(code, dataSale, currency, priceCurrency);
 
 
-                    user2.getHistoric().setSale(sale);
-                    user2.getHistoric().setHistoricCode(generatedCode().getString());
-                    user2.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+                    user.getHistoric().setSale(sale);
+                    user.getHistoric().setHistoricCode(generatedCode().getString());
+                    user.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
                     sale.setHistoric(historic);
                     historic.setSale(sale);
-                    user2.setHistoric(historic);
-                    historic.setUser(user2);
+                    user.setHistoric(historic);
+                    historic.setUser(user);
                     historicRepository.save(historic);
                     saleRepository.save(sale);
-                    userRepository.save(user2);
+                    userRepository.save(user);
 
-                    return user2;
+                    return user;
 
                 } catch (JsonProcessingException e) {
                     System.out.println("Exception JsonProcessingException line xx");
                 }
 
-            }else{
+            } else {
                 //exit
             }
-        }else{
-            saveUser(user2);
+        } else {
+            saveUser(user);
         }
         return null;
 
@@ -115,58 +116,48 @@ public class HistoricService implements UserProjection {
 
     @Override
     public User buyCurrency(String currency, Integer id) {
-        Optional<User> user=userRepository.findById(id);
-        User user2=user.get();
+        Optional<User> userByFind = userRepository.findById(id);
+        User user = userByFind.get();
 
-        if(user2.getId()!=null) {
+        if (user.getId() != null) {
             if (currency != null) {
                 try {
-                    Historic historic = user2.getHistoric();
+                    Historic historic = user.getHistoric();
 
 
                     if (historic == null) {
                         historic = new Historic();
-                        user2.setHistoric(historic);
-                        historic.setUser(user2);
+                        user.setHistoric(historic);
+                        historic.setUser(user);
                     }
-                    String code =generatedCode().getString();
-                    Date dataBuy=new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                    String code = generatedCode().getString();
+                    Date dataBuy = new java.sql.Date(Calendar.getInstance().getTime().getTime());
                     String priceCurrency = getCurrency(currency).getTicker().getLast();
-                    Buy buy=new Buy(code,dataBuy,priceCurrency,currency);
+                    Buy buy = new Buy(code, dataBuy, priceCurrency, currency);
 
 
-                    user2.getHistoric().setBuy(buy);
-                    user2.getHistoric().setHistoricCode(generatedCode().getString());
-                    user2.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+                    user.getHistoric().setBuy(buy);
+                    user.getHistoric().setHistoricCode(generatedCode().getString());
+                    user.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
                     buy.setHistoric(historic);
                     historic.setBuy(buy);
-                    user2.setHistoric(historic);
-                    historic.setUser(user2);
+                    user.setHistoric(historic);
+                    historic.setUser(user);
                     historicRepository.save(historic);
                     buyRepository.save(buy);
-                    userRepository.save(user2);
-                    return user2;
+                    userRepository.save(user);
+                    return user;
 
                 } catch (JsonProcessingException e) {
                     System.out.println("Exception JsonProcessingException line xx");
                 }
 
-            }else{
+            } else {
                 //exit
             }
-        }else{
-            saveUser(user2);
+        } else {
+            saveUser(user);
         }
-        return null;
-    }
-
-    @Override
-    public Iterable<Sale> saleList() {
-        return null;
-    }
-
-    @Override
-    public Iterable<Buy> buyList() {
         return null;
     }
 
@@ -177,13 +168,14 @@ public class HistoricService implements UserProjection {
 
 
     private Currency getCurrency(String a) throws JsonProcessingException {
-        String json=currencyApiProjection.getCurrency(a,"ticker");
+        String json = currencyApiProjection.getCurrency(a, "ticker");
         ObjectMapper objectMapper = new ObjectMapper();
         Currency currency = objectMapper.readValue(json, Currency.class);
         return currency;
     }
+
     private Codes generatedCode() throws JsonProcessingException {
-        String json= codeApiProjection.getCode(25,1);
+        String json = codeApiProjection.getCode(25, 1);
         ObjectMapper objectMapper = new ObjectMapper();
         Codes currency = objectMapper.readValue(json, Codes.class);
         return currency;

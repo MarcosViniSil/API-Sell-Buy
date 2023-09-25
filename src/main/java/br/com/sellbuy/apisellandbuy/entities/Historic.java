@@ -12,9 +12,9 @@ public class Historic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="tb_historicCode",nullable = false)
+    @Column(name = "tb_historicCode", nullable = false)
     private String historicCode;
-    @Column(name="tb_dateAccess",nullable = false)
+    @Column(name = "tb_dateAccess", nullable = false)
     private Date dateAccess;
     @OneToMany(mappedBy = "historic")
     private List<Sale> sales;
@@ -25,7 +25,6 @@ public class Historic {
     private User user;
 
 
-
     public Historic(String historicCode, Date dateAccess, List<Sale> sales, List<Buy> buy, User user) {
         this.historicCode = historicCode;
         this.dateAccess = dateAccess;
@@ -34,9 +33,10 @@ public class Historic {
         this.user = user;
 
     }
-    public Historic(){
-        sales=new ArrayList<>();
-        buy=new ArrayList<>();
+
+    public Historic() {
+        sales = new ArrayList<>();
+        buy = new ArrayList<>();
     }
 
     public void setHistoricCode(String historicCode) {

@@ -11,16 +11,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="tb_name",length = 100,nullable = false)
+    @Column(name = "tb_name", length = 100, nullable = false)
     private String name;
-    @Column(name="tb_country",length = 100,nullable = false)
+    @Column(name = "tb_country", length = 100, nullable = false)
     private String country;
     @OneToOne
-    @JoinColumn(name="historic_id")
+    @JoinColumn(name = "historic_id")
     @JsonBackReference
     private Historic historic;
 
-    public User(){}
+    public User() {
+    }
 
     public Integer getId() {
         return id;

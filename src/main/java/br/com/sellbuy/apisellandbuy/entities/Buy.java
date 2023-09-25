@@ -11,21 +11,22 @@ public class Buy {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="tb_purchaseCode",length = 100,nullable = false)
+    @Column(name = "tb_purchaseCode", length = 100, nullable = false)
     private String purchaseCode;
-    @Column(name="tb_priceBuy",nullable = false)
+    @Column(name = "tb_priceBuy", nullable = false)
     private String priceBuy;
-    @Column(name="tb_dateBuy",nullable = false)
+    @Column(name = "tb_dateBuy", nullable = false)
     private Date dateBuy;
-    @Column(name="tb_currency",length = 100,nullable = false)
+    @Column(name = "tb_currency", length = 100, nullable = false)
     private String currency;
     @ManyToOne
     @JsonBackReference
     private Historic historic;
 
-    public Buy(){}
+    public Buy() {
+    }
 
-    public Buy(String purchaseCode,Date dateBuy, String priceBuy,  String currency) {
+    public Buy(String purchaseCode, Date dateBuy, String priceBuy, String currency) {
         this.purchaseCode = purchaseCode;
         this.priceBuy = priceBuy;
         this.dateBuy = dateBuy;

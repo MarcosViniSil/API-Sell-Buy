@@ -3,12 +3,14 @@ package br.com.sellbuy.apisellandbuy.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.annotation.Generated;
 
 import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "Strings",
@@ -18,7 +20,7 @@ import java.util.List;
 @Generated("jsonschema2pojo")
 public class Codes {
     @JsonProperty("Strings")
-    private List<String> strings=new ArrayList<>();
+    private List<String> strings = new ArrayList<>();
     @JsonProperty("Count")
     private Long count;
     @JsonProperty("Length")
@@ -72,8 +74,6 @@ public class Codes {
     public void setLength(Long length) {
         this.length = length;
     }
-
-
 
 
 }

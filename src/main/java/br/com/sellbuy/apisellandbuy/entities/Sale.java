@@ -4,25 +4,27 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+
 @Entity
 @Table(name = "tb_Sale")
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @Column(name="tb_saleCode",nullable = false)
+    @Column(name = "tb_saleCode", nullable = false)
     private String saleCode;
-    @Column(name="tb_dateSale",nullable = false)
+    @Column(name = "tb_dateSale", nullable = false)
     private Date dateSale;
-    @Column(name="tb_currency",length = 100,nullable = false)
+    @Column(name = "tb_currency", length = 100, nullable = false)
     private String currency;
-    @Column(name="tb_priceSale",nullable = false)
+    @Column(name = "tb_priceSale", nullable = false)
     private String priceSale;
     @ManyToOne
     @JsonBackReference
     private Historic historic;
 
-    public Sale(){}
+    public Sale() {
+    }
 
     public Sale(String saleCode, Date dateSale, String currency, String priceSale) {
         this.saleCode = saleCode;
