@@ -1,6 +1,7 @@
 package br.com.sellbuy.apisellandbuy.entities;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +18,7 @@ import java.util.List;
 @Generated("jsonschema2pojo")
 public class Codes {
     @JsonProperty("Strings")
-    private List<String> strings;
+    private List<String> strings=new ArrayList<>();
     @JsonProperty("Count")
     private Long count;
     @JsonProperty("Length")
@@ -27,6 +28,7 @@ public class Codes {
      * No args constructor for use in serialization
      */
     public Codes() {
+
     }
 
     /**
@@ -42,8 +44,8 @@ public class Codes {
     }
 
     @JsonProperty("Strings")
-    public List<String> getStrings() {
-        return strings;
+    public String getString() {
+        return strings.get(0);
     }
 
     @JsonProperty("Strings")
@@ -70,6 +72,8 @@ public class Codes {
     public void setLength(Long length) {
         this.length = length;
     }
+
+
 
 
 }

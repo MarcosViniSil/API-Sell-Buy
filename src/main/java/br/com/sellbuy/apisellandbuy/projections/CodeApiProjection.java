@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "code", url = "https://ciprand.p3p.repl.co/api")
 public interface CodeApiProjection {
+
     @GetMapping("?len={leng}&count={coun}")
-    String gerCode(@PathVariable("leng") Integer leng, @PathVariable("coun") Integer coun);
+    String getCode(@PathVariable("leng") Integer leng, @PathVariable("coun") Integer coun);
 }

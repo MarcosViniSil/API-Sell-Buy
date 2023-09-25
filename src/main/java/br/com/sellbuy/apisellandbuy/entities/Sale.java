@@ -16,11 +16,18 @@ public class Sale {
     @Column(name="tb_currency",length = 100,nullable = false)
     private String currency;
     @Column(name="tb_priceSale",nullable = false)
-    private Double priceSale;
+    private String priceSale;
     @ManyToOne
     private Historic historic;
 
     public Sale(){}
+
+    public Sale(String saleCode, Date dateSale, String currency, String priceSale) {
+        this.saleCode = saleCode;
+        this.dateSale = dateSale;
+        this.currency = currency;
+        this.priceSale = priceSale;
+    }
 
     public Integer getId() {
         return id;
@@ -46,11 +53,11 @@ public class Sale {
         this.currency = currency;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return priceSale;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.priceSale = price;
     }
 

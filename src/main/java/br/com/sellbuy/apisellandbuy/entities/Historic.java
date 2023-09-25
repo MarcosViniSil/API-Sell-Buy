@@ -3,6 +3,7 @@ package br.com.sellbuy.apisellandbuy.entities;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,20 @@ public class Historic {
     @OneToOne(mappedBy = "historic")
     private User user;
 
-    public Historic(){}
+
+
+    public Historic(String historicCode, Date dateAccess, List<Sale> sales, List<Buy> buy, User user) {
+        this();
+        this.historicCode = historicCode;
+        this.dateAccess = dateAccess;
+        this.sales = sales;
+        this.buy = buy;
+        this.user = user;
+
+    }
+    public Historic(){
+        sales=new ArrayList<>();
+    }
 
     public Integer getId() {
         return id;
@@ -44,8 +58,10 @@ public class Historic {
         return sales;
     }
 
-    public void setSales(List<Sale> sales) {
-        this.sales = sales;
+    public void setSale(Sale sale) {
+
+        this.sales.add(sale);
+
     }
 
     public List<Buy> getBuy() {

@@ -2,13 +2,13 @@ package br.com.sellbuy.apisellandbuy.controller;
 
 import br.com.sellbuy.apisellandbuy.entities.Codes;
 import br.com.sellbuy.apisellandbuy.entities.Currency;
+import br.com.sellbuy.apisellandbuy.entities.Historic;
+import br.com.sellbuy.apisellandbuy.entities.User;
 import br.com.sellbuy.apisellandbuy.services.HistoricService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class tesr {
@@ -16,12 +16,13 @@ public class tesr {
     @Autowired
     private HistoricService historicService;
 
-    @GetMapping("/users/{b}/{c}")
-    public Currency buscarTodos(@PathVariable String b,@PathVariable String c) throws JsonProcessingException {
-       return historicService.testApiCurrency(b,c);
+    @PostMapping("/test/{a}/{user}")
+    public Historic test(@PathVariable String a, @RequestBody User user){
+        return historicService.buyCurrency(a,user);
     }
-    @GetMapping("/test2/{b}/{c}")
-    public Codes buscar(@PathVariable Integer b, @PathVariable Integer c) throws JsonProcessingException {
-        return historicService.testApiCode(b,c);
+
+    @PostMapping("/save")
+    public void saveUser(@RequestBody User user){
+        historicService.saveUser(user);
     }
 }
