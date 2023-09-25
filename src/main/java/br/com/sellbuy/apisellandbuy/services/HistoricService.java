@@ -12,11 +12,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.sellbuy.apisellandbuy.entities.*;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HistoricService implements UserProjection {
@@ -47,41 +47,57 @@ public class HistoricService implements UserProjection {
 
         return historicRepository.findAll();
     }
+    public List<User> userList() {
 
-    public Iterable<User> userList(Iterable<Integer> id){
-        return userRepository.findAllById(id);
+        return userRepository.findAll();
+    }
+
+    public Optional<User> userById(Integer id){
+        return userRepository.findById(id);
+    }
+
+    public Historic historicUser(Integer id){
+        Optional<User> user=userRepository.findById(id);
+        User user2=user.get();
+        return user2.getHistoric();
     }
 
 
 
 
     @Override
-    public User saleCurrency(String currency,User user) {
-        boolean userExists=userRepository.existsById(user.getId());
-        if(userExists) {
+    public User saleCurrency(String currency,Integer id) {
+        Optional<User> user=userRepository.findById(id);
+        User user2=user.get();
+        if(user2.getId()!=null) {
             if (currency != null) {
                 try {
-                    Historic historic = new Historic();
-                    String code = generatedCode().getString();
-                    Date dataBuy = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+                    Historic historic = user2.getHistoric();
+                    if (historic == null) {
+                        historic = new Historic();
+                        user2.setHistoric(historic);
+                        historic.setUser(user2);
+                    }
+
+                    String code =generatedCode().getString();
+                    Date dataSale=new java.sql.Date(Calendar.getInstance().getTime().getTime());
                     String priceCurrency = getCurrency(currency).getTicker().getLast();
-                    Sale sale = new Sale(code, dataBuy, priceCurrency, currency);
-
-                    // Primeiro, salve o histórico
-                    historic.setSale(sale);
-                    historic.setHistoricCode(generatedCode().getString());
-                    historic.setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+                    Sale sale=new Sale(code,dataSale,currency,priceCurrency);
 
 
-                    // Em seguida, configure as associações e salve o resto
+                    user2.getHistoric().setSale(sale);
+                    user2.getHistoric().setHistoricCode(generatedCode().getString());
+                    user2.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
                     sale.setHistoric(historic);
                     historic.setSale(sale);
-                    user.setHistoric(historic);
+                    user2.setHistoric(historic);
+                    historic.setUser(user2);
                     historicRepository.save(historic);
-                    userRepository.save(user);
                     saleRepository.save(sale);
+                    userRepository.save(user2);
 
-                    return user;
+                    return user2;
 
                 } catch (JsonProcessingException e) {
                     System.out.println("Exception JsonProcessingException line xx");
@@ -91,36 +107,45 @@ public class HistoricService implements UserProjection {
                 //exit
             }
         }else{
-            saveUser(user);
+            saveUser(user2);
         }
         return null;
 
     }
 
     @Override
-    public User buyCurrency(String currency, User user) {
-        boolean userExists=userRepository.existsById(user.getId());
-        if(userExists) {
+    public User buyCurrency(String currency, Integer id) {
+        Optional<User> user=userRepository.findById(id);
+        User user2=user.get();
+
+        if(user2.getId()!=null) {
             if (currency != null) {
                 try {
-                    Historic historic=new Historic();
+                    Historic historic = user2.getHistoric();
+
+
+                    if (historic == null) {
+                        historic = new Historic();
+                        user2.setHistoric(historic);
+                        historic.setUser(user2);
+                    }
                     String code =generatedCode().getString();
                     Date dataBuy=new java.sql.Date(Calendar.getInstance().getTime().getTime());
                     String priceCurrency = getCurrency(currency).getTicker().getLast();
                     Buy buy=new Buy(code,dataBuy,priceCurrency,currency);
-                    //historicRepository.save(historic);
 
-                    historic.setBuy(buy);
-                    historic.setHistoricCode(generatedCode().getString());
-                    historic.setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+
+                    user2.getHistoric().setBuy(buy);
+                    user2.getHistoric().setHistoricCode(generatedCode().getString());
+                    user2.getHistoric().setDateAccess(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
                     buy.setHistoric(historic);
                     historic.setBuy(buy);
-                    user.setHistoric(historic);
+                    user2.setHistoric(historic);
+                    historic.setUser(user2);
                     historicRepository.save(historic);
                     buyRepository.save(buy);
-
-                    userRepository.save(user);
-                    return user;
+                    userRepository.save(user2);
+                    return user2;
 
                 } catch (JsonProcessingException e) {
                     System.out.println("Exception JsonProcessingException line xx");
@@ -130,7 +155,7 @@ public class HistoricService implements UserProjection {
                 //exit
             }
         }else{
-            saveUser(user);
+            saveUser(user2);
         }
         return null;
     }

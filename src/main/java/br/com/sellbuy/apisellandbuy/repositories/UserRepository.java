@@ -1,7 +1,11 @@
 package br.com.sellbuy.apisellandbuy.repositories;
 
 import br.com.sellbuy.apisellandbuy.entities.User;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<User,Integer> {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User,Integer> {
+
 }

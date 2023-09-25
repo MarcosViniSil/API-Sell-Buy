@@ -1,5 +1,6 @@
 package br.com.sellbuy.apisellandbuy.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 
@@ -16,6 +17,7 @@ public class User {
     private String country;
     @OneToOne
     @JoinColumn(name="historic_id")
+    @JsonBackReference
     private Historic historic;
 
     public User(){}

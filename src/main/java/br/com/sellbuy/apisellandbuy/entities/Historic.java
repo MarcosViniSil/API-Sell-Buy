@@ -20,13 +20,13 @@ public class Historic {
     private List<Sale> sales;
     @OneToMany(mappedBy = "historic")
     private List<Buy> buy;
+
     @OneToOne(mappedBy = "historic")
     private User user;
 
 
 
     public Historic(String historicCode, Date dateAccess, List<Sale> sales, List<Buy> buy, User user) {
-        this();
         this.historicCode = historicCode;
         this.dateAccess = dateAccess;
         this.sales = sales;
