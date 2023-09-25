@@ -1,5 +1,6 @@
 package br.com.sellbuy.apisellandbuy.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -18,6 +19,7 @@ public class Sale {
     @Column(name="tb_priceSale",nullable = false)
     private String priceSale;
     @ManyToOne
+    @JsonBackReference
     private Historic historic;
 
     public Sale(){}

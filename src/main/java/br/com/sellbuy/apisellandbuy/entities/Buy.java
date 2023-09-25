@@ -1,5 +1,6 @@
 package br.com.sellbuy.apisellandbuy.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -13,15 +14,24 @@ public class Buy {
     @Column(name="tb_purchaseCode",length = 100,nullable = false)
     private String purchaseCode;
     @Column(name="tb_priceBuy",nullable = false)
-    private Double priceBuy;
+    private String priceBuy;
     @Column(name="tb_dateBuy",nullable = false)
     private Date dateBuy;
     @Column(name="tb_currency",length = 100,nullable = false)
     private String currency;
     @ManyToOne
+    @JsonBackReference
     private Historic historic;
 
     public Buy(){}
+
+    public Buy(String purchaseCode,Date dateBuy, String priceBuy,  String currency) {
+        this.purchaseCode = purchaseCode;
+        this.priceBuy = priceBuy;
+        this.dateBuy = dateBuy;
+        this.currency = currency;
+
+    }
 
     public Integer getId() {
         return id;
@@ -31,11 +41,11 @@ public class Buy {
         return purchaseCode;
     }
 
-    public Double getPriceBuy() {
+    public String getPriceBuy() {
         return priceBuy;
     }
 
-    public void setPriceBuy(Double priceBuy) {
+    public void setPriceBuy(String priceBuy) {
         this.priceBuy = priceBuy;
     }
 

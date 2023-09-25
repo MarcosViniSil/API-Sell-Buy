@@ -10,9 +10,9 @@ public interface UserProjection {
 
     Iterable<Historic> historicalList();
 
-    Historic buyCurrency(String currency,User user);
+    User buyCurrency(String currency,User user);
 
-    void saleCurrency(String currency,User user);
+    User saleCurrency(String currency,User user);
 
     Iterable<Sale> saleList();
 

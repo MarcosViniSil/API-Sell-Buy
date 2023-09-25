@@ -16,13 +16,21 @@ public class tesr {
     @Autowired
     private HistoricService historicService;
 
-    @PostMapping("/test/{a}/{user}")
-    public Historic test(@PathVariable String a, @RequestBody User user){
-        return historicService.buyCurrency(a,user);
+    @PostMapping("/test/{a}")
+    public User test(@PathVariable String a, @RequestBody User user){
+        return historicService.saleCurrency(a,user);
     }
 
     @PostMapping("/save")
     public void saveUser(@RequestBody User user){
         historicService.saveUser(user);
+    }
+    @PostMapping("/buy/{a}")
+    public User buy(@PathVariable String a, @RequestBody User user){
+        return historicService.buyCurrency(a,user);
+    }
+    @GetMapping("/user")
+    public Iterable<User> userGet(@RequestParam Iterable<Integer> id){
+        return historicService.userList(id);
     }
 }

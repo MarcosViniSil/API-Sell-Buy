@@ -36,6 +36,11 @@ public class Historic {
     }
     public Historic(){
         sales=new ArrayList<>();
+        buy=new ArrayList<>();
+    }
+
+    public void setHistoricCode(String historicCode) {
+        this.historicCode = historicCode;
     }
 
     public Integer getId() {
@@ -68,8 +73,8 @@ public class Historic {
         return buy;
     }
 
-    public void setBuy(List<Buy> buy) {
-        this.buy = buy;
+    public void setBuy(Buy buy) {
+        this.buy.add(buy);
     }
 
     public User getUser() {
