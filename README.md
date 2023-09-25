@@ -38,3 +38,9 @@ classDiagram
 `https://www.mercadobitcoin.com.br/api-doc/`
 ### Ciprand <br/> 
 `https://github.com/polarspetroll/ciprand`
+## Documenting API using Swagger
+<p align="center">
+
+  <img src="https://github.com/MarcosViniSil/API-Sell-Buy/blob/main/images/Capturar.PNG" alt="swagger documentation1">
+</p>
+
